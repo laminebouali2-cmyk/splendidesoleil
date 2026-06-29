@@ -1,0 +1,15 @@
+import { chromium } from "playwright";
+const B = "http://localhost:3012";
+const OUT = "docs/design-references/my-intro";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const page = await ctx.newPage();
+await page.goto(B + "/galerie/mariages", { waitUntil: "domcontentloaded", timeout: 60000 }).catch(()=>{});
+await page.waitForSelector(".shatter.is-fall", { timeout: 9000 });
+await page.waitForTimeout(1050);
+await page.screenshot({ path: `${OUT}/v6-boom-1.png` });
+await page.waitForTimeout(220);
+await page.screenshot({ path: `${OUT}/v6-boom-2.png` });
+await page.waitForTimeout(240);
+await page.screenshot({ path: `${OUT}/v6-boom-3.png` });
+await browser.close(); process.exit(0);

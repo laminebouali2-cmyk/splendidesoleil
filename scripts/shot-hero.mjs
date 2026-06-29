@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+const page = await ctx.newPage();
+const errs = [];
+page.on("console", (m) => { if (m.type() === "error") errs.push(m.text()); });
+page.on("pageerror", (e) => errs.push("PAGEERR: " + e.message));
+await page.goto("http://localhost:3000", { waitUntil: "commit", timeout: 60000 }).catch((e) => console.log("warn:", e.message));
+await page.waitForTimeout(12000);
+await page.screenshot({ path: "docs/design-references/my-intro/hero-real.png" });
+console.log("errs:", errs.slice(0, 8).join(" | ") || "none");
+await browser.close();
+process.exit(0);

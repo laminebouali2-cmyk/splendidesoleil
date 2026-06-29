@@ -1,0 +1,1015 @@
+{
+  "bg": "rgb(255, 255, 255)",
+  "bodyColor": "rgb(0, 0, 0)",
+  "title": "Kenichi Aikawa - Photographer",
+  "elements": [
+    {
+      "tag": "div",
+      "cls": "g-header__inner",
+      "text": "KenichiAikawaisaphotographerfromJapan.",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 90
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-header__body",
+      "text": "KenichiAikawaisaphotographerfromJapan.",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 60,
+        "y": 0,
+        "w": 1320,
+        "h": 90
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-header__title-wrap",
+      "text": "KenichiAikawaisaphotographerfromJapan.",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 544,
+        "y": 36,
+        "w": 352,
+        "h": 18
+      }
+    },
+    {
+      "tag": "h1",
+      "cls": "g-header__title",
+      "text": "KenichiAikawaisaphotographerfromJapan.",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 564,
+        "y": 36,
+        "w": 312,
+        "h": 18
+      }
+    },
+    {
+      "tag": "a",
+      "cls": "g-header__title-link",
+      "text": "KenichiAikawa",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 564,
+        "y": 36,
+        "w": 103,
+        "h": 18
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words --name",
+      "text": "Kenichi",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 564,
+        "y": 53,
+        "w": 50,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words --name",
+      "text": "Aikawa",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 618,
+        "y": 53,
+        "w": 49,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words",
+      "text": "is",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 671,
+        "y": 53,
+        "w": 11,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words",
+      "text": "a",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 686,
+        "y": 53,
+        "w": 8,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words",
+      "text": "photographer",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 698,
+        "y": 53,
+        "w": 94,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words",
+      "text": "from",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 796,
+        "y": 53,
+        "w": 31,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-header__title-words",
+      "text": "Japan.",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 831,
+        "y": 53,
+        "w": 45,
+        "h": 16
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-large-text",
+      "text": "PortfolioKenichiAikawa(Photographer)",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 90,
+        "w": 1440,
+        "h": 261
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-large-text__inner",
+      "text": "PortfolioKenichiAikawa(Photographer)",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 90,
+        "w": 1440,
+        "h": 261
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-large-text__body",
+      "text": "PortfolioKenichiAikawa(Photographer)",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 30,
+        "y": 90,
+        "w": 1380,
+        "h": 261
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "P",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 30,
+        "y": 74,
+        "w": 155,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "o",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 185,
+        "y": 74,
+        "w": 174,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "r",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 358,
+        "y": 74,
+        "w": 159,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "t",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 517,
+        "y": 74,
+        "w": 168,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "f",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 685,
+        "y": 74,
+        "w": 149,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "o",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 834,
+        "y": 74,
+        "w": 174,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "l",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1008,
+        "y": 74,
+        "w": 144,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "i",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1152,
+        "y": 74,
+        "w": 79,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "o",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1231,
+        "y": 74,
+        "w": 181,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "K",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 191,
+        "y": 74,
+        "w": 192,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "e",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 383,
+        "y": 74,
+        "w": 156,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "n",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 539,
+        "y": 74,
+        "w": 187,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "i",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 726,
+        "y": 74,
+        "w": 79,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "c",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 805,
+        "y": 74,
+        "w": 167,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "h",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 971,
+        "y": 74,
+        "w": 194,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "i",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1166,
+        "y": 74,
+        "w": 84,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "A",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 205,
+        "y": 309,
+        "w": 194,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "i",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 399,
+        "y": 309,
+        "w": 84,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "k",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 483,
+        "y": 309,
+        "w": 196,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "a",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 679,
+        "y": 309,
+        "w": 151,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "w",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 829,
+        "y": 309,
+        "w": 212,
+        "h": 292
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "a",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "260.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1041,
+        "y": 309,
+        "w": 194,
+        "h": 292
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-large-text__about-subtitle",
+      "text": "(Photographer)",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "47.9488px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "uppercase",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 517,
+        "y": 598,
+        "w": 406,
+        "h": 48
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-details-text__base",
+      "text": "Details",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "188.905px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 190,
+        "w": 1440,
+        "h": 189
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-slider",
+      "text": "WorkFashionJourney",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 900
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-slider__wrapper",
+      "text": "WorkFashionJourney",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(0, 0, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 900
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-slider__text",
+      "text": "Work",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "106.56px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgba(255, 255, 255, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": -370,
+        "y": 397,
+        "w": 247,
+        "h": 107
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-slider__text",
+      "text": "Fashion",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "106.56px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgba(255, 255, 255, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 546,
+        "y": 397,
+        "w": 348,
+        "h": 107
+      }
+    },
+    {
+      "tag": "div",
+      "cls": "g-canvas-slider__text",
+      "text": "Journey",
+      "fontFamily": "\"Editorial Old\", serif",
+      "fontSize": "106.56px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgba(255, 255, 255, 0)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 1515,
+        "y": 397,
+        "w": 342,
+        "h": 107
+      }
+    },
+    {
+      "tag": "a",
+      "cls": "g-float-nav__menu-link",
+      "text": "EmailCopy to clipboardEmail copied",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 590,
+        "y": 792,
+        "w": 121,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "Email",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 590,
+        "y": 792,
+        "w": 121,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "Copy to clipboard",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 590,
+        "y": 808,
+        "w": 121,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "",
+      "text": "Email copied",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 590,
+        "y": 824,
+        "w": 121,
+        "h": 16
+      }
+    },
+    {
+      "tag": "a",
+      "cls": "g-float-nav__menu-link",
+      "text": "InstagramInstagram",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 819,
+        "w": 68,
+        "h": 19
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text",
+      "text": "InstagramInstagram",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 819,
+        "w": 68,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text-child --front",
+      "text": "Instagram",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 819,
+        "w": 68,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text-child --back",
+      "text": "Instagram",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 835,
+        "w": 68,
+        "h": 16
+      }
+    },
+    {
+      "tag": "a",
+      "cls": "g-float-nav__menu-link",
+      "text": "FacebookFacebook",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 846,
+        "w": 68,
+        "h": 19
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text",
+      "text": "FacebookFacebook",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 846,
+        "w": 68,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text-child --front",
+      "text": "Facebook",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 846,
+        "w": 68,
+        "h": 16
+      }
+    },
+    {
+      "tag": "span",
+      "cls": "g-float-nav__menu-link-text-child --back",
+      "text": "Facebook",
+      "fontFamily": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "letterSpacing": "normal",
+      "textTransform": "none",
+      "color": "rgb(255, 255, 255)",
+      "mixBlendMode": "normal",
+      "rect": {
+        "x": 616,
+        "y": 862,
+        "w": 68,
+        "h": 16
+      }
+    }
+  ]
+}

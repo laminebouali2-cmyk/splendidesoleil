@@ -1,0 +1,92 @@
+{
+  "info": {
+    "title": "Kenichi Aikawa - Photographer",
+    "url": "https://aikawakenichi.com/",
+    "generator": null,
+    "webflow": false,
+    "framer": false,
+    "libs": {
+      "gsap": true,
+      "ScrollTrigger": false,
+      "lenis": true,
+      "locomotive": false,
+      "three": false,
+      "pixi": false,
+      "barba": false,
+      "swiper": false,
+      "splitting": false,
+      "framerMotion": false
+    },
+    "canvasCount": 1,
+    "canvases": [
+      {
+        "w": 1440,
+        "h": 900,
+        "cls": ""
+      }
+    ],
+    "videoCount": 0,
+    "imgCount": 0,
+    "svgCount": 6,
+    "scriptCount": 1,
+    "scripts": [
+      "https://aikawakenichi.com/assets/scripts/entry.S2oj3BdN.js"
+    ],
+    "bodyFont": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+    "h1Font": "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+    "fontFamilies": [
+      "\"Times New Roman\"",
+      "\"Neue Montreal\", -apple-system, BlinkMacSystemFont, sans-serif",
+      "\"Editorial Old\", serif",
+      "Arial"
+    ],
+    "fontLinks": [
+      "https://aikawakenichi-v2.storage.googleapis.com/assets/icons/favicon.svg",
+      "https://aikawakenichi-v2.storage.googleapis.com/assets/icons/favicon.svg",
+      "https://aikawakenichi-v2.storage.googleapis.com/assets/icons/apple-touch-icon.png"
+    ],
+    "htmlClasses": "desktop windows chrome touch --is-loading",
+    "bodyClasses": "home",
+    "docHeight": 900,
+    "innerHeight": 900,
+    "sectionsCount": 5,
+    "sections": [
+      {
+        "tag": "div",
+        "cls": "",
+        "id": "app",
+        "text": "KenichiAikawaisaphotographerfromJapan.PortfolioKen"
+      },
+      {
+        "tag": "div",
+        "cls": "l-view",
+        "id": "",
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "",
+        "id": "teleports",
+        "text": ""
+      },
+      {
+        "tag": "script",
+        "cls": "",
+        "id": "",
+        "text": "window.__NUXT__={};window.__NUXT__.config={public:"
+      },
+      {
+        "tag": "script",
+        "cls": "",
+        "id": "__NUXT_DATA__",
+        "text": "[{\"state\":1,\"once\":13,\"_errors\":14,\"serverRendered"
+      }
+    ]
+  },
+  "consoleMsgs": [
+    "[warning] [.WebGL-0x355c0233cc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x355c0233cc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x355c0233cc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[warning] [.WebGL-0x355c0233cc00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+  ]
+}
