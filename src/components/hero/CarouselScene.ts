@@ -376,10 +376,13 @@ export class CarouselScene {
     this.renderer.setSize(w, h, false);
     const aspect = w / h;
     this.camera.aspect = aspect;
-    // Sur écran étroit (portrait/mobile), on RECULE la caméra pour que tout le
-    // cylindre tienne en largeur — sinon il déborde et on n'en voit qu'un arc géant.
+    // Sur écran étroit (portrait/mobile) : FOV plus large (= plus de perspective et de
+    // profondeur) + distance juste ce qu'il faut pour que tout le tambour tienne en
+    // largeur. Avant on reculait beaucoup la caméra → cylindre plat et minuscule.
+    const portrait = aspect < 1;
+    this.camera.fov = portrait ? 46 : 34;
     const vFov = (this.camera.fov * Math.PI) / 180;
-    const targetWidth = 7.2; // largeur monde que le tambour doit occuper
+    const targetWidth = portrait ? 7.6 : 7.2; // largeur monde occupée par le tambour
     const distForWidth = targetWidth / (2 * Math.tan(vFov / 2) * aspect);
     this.camera.position.z = Math.max(this.camZ, distForWidth);
     this.camera.updateProjectionMatrix();

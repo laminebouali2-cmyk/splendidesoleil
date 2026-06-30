@@ -85,6 +85,10 @@ class TransitionEngine {
   private cbs: EngineCallbacks = {};
   private inputBound = false;
   private shatterActive = false; // vrai tant que des éclats vivent (burst OU flottants restants)
+  private dragging = false;
+  private dragLastX = 0;
+  private dragTotal = 0;
+  private dragMoved = false; // vrai si le dernier geste était un swipe (≠ tap)
 
   // Appelé une seule fois par PersistentCanvas. Idempotent : un re-mount React
   // (StrictMode/HMR) ne recrée ni le renderer ni les listeners.
@@ -100,6 +104,8 @@ class TransitionEngine {
     this.inputBound = true;
     window.addEventListener("wheel", this.onWheel, { passive: false });
     window.addEventListener("pointermove", this.onPointer);
+    window.addEventListener("pointerdown", this.onPointerDown);
+    window.addEventListener("pointerup", this.onPointerUp);
     window.addEventListener("resize", this.onResize);
   }
 
@@ -256,8 +262,14 @@ class TransitionEngine {
     }
   }
 
-  // Clic sur le canvas (géré par PersistentCanvas) → ouvrir la galerie, en mode accueil seulement.
+  // Clic/tap sur le canvas → ouvrir la galerie, en mode accueil seulement.
+  // Si l'utilisateur vient de FAIRE GLISSER (swipe) pour tourner le cylindre, on
+  // n'entre pas (c'était une navigation, pas un tap).
   activate() {
+    if (this.dragMoved) {
+      this.dragMoved = false;
+      return;
+    }
     if (this.mode === "home" && !this.isExiting) this.cbs.onActivate?.();
   }
 
@@ -296,8 +308,28 @@ class TransitionEngine {
     this.cylinder.onWheel(e.deltaY);
   };
 
+  private onPointerDown = (e: PointerEvent) => {
+    if (this.mode !== "home") return;
+    this.dragging = true;
+    this.dragLastX = e.clientX;
+    this.dragTotal = 0;
+  };
+
+  private onPointerUp = () => {
+    this.dragging = false;
+  };
+
   private onPointer = (e: PointerEvent) => {
     if (this.mode !== "home" || !this.cylinder) return;
+    if (this.dragging) {
+      // Glisser pour faire tourner le cylindre (tactile + souris).
+      const dx = e.clientX - this.dragLastX;
+      this.dragLastX = e.clientX;
+      this.dragTotal += Math.abs(dx);
+      if (this.dragTotal > 8) this.dragMoved = true; // au-delà → c'est un swipe, pas un tap
+      this.cylinder.onWheel(-dx * 2.2);
+      return;
+    }
     const nx = (e.clientX / window.innerWidth) * 2 - 1;
     const ny = (e.clientY / window.innerHeight) * 2 - 1;
     this.cylinder.onPointerMove(nx, ny);

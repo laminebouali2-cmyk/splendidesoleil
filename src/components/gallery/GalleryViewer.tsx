@@ -85,13 +85,21 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
     return () => io.disconnect();
   }, [items, dir, total]);
 
-  // Fermer la lightbox à l'Échap
+  // Lightbox : Échap ferme, ←/→ naviguent ; on masque le « Contact » du header.
   useEffect(() => {
     if (lightbox === null) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightbox(null);
+    document.body.classList.add("lb-open");
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      else if (e.key === "ArrowRight") setLightbox((l) => (l === null ? l : (l + 1) % total));
+      else if (e.key === "ArrowLeft") setLightbox((l) => (l === null ? l : (l - 1 + total) % total));
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox]);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.classList.remove("lb-open");
+    };
+  }, [lightbox, total]);
 
   const goTo = (slide: number) => {
     const clamped = Math.min(slideRefs.current.length - 1, Math.max(0, slide));
@@ -213,7 +221,7 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
         </button>
       </nav>
 
-      {/* Lightbox */}
+      {/* Lightbox : flèches grises pour swiper, fond pour fermer. */}
       {lightbox !== null && (
         <div className="lb" onClick={() => setLightbox(null)} role="dialog" aria-modal>
           <Image
@@ -223,7 +231,28 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
             height={items[lightbox].h}
             className="lb__img"
             sizes="100vw"
+            onClick={(e) => e.stopPropagation()}
           />
+          <button
+            className="lb__nav lb__nav--prev"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((l) => (l === null ? l : (l - 1 + total) % total));
+            }}
+            aria-label="Image précédente"
+          >
+            ←
+          </button>
+          <button
+            className="lb__nav lb__nav--next"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((l) => (l === null ? l : (l + 1) % total));
+            }}
+            aria-label="Image suivante"
+          >
+            →
+          </button>
           <button className="lb__close" aria-label="Fermer">
             ×
           </button>

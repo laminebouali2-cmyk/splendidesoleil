@@ -1012,17 +1012,18 @@ a {
 .gv__img {
   display: block;
   border-radius: 2px;
-  width: clamp(280px, 46vw, 60vh);
-  aspect-ratio: 1 / 1;
+  width: clamp(320px, 66vw, 96vh);
+  aspect-ratio: 3 / 2; /* paysage (plus de portrait) */
   height: auto;
   object-fit: cover;
   object-position: center;
-  max-width: 92vw;
+  max-width: 94vw;
 }
 .gv--h .gv__img {
   width: auto;
-  height: min(72vh, 80vw);
-  aspect-ratio: 1 / 1;
+  height: min(72vh, 64vw);
+  aspect-ratio: 3 / 2;
+  max-width: 92vw;
 }
 
 /* Cartes titre / fin */
@@ -1154,9 +1155,62 @@ a {
   cursor: pointer;
 }
 
+/* Navigation dans la lightbox : flèches grises pour passer d'une image à l'autre. */
+.lb__nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease;
+}
+.lb__nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.lb__nav--prev {
+  left: clamp(12px, 3vw, 36px);
+}
+.lb__nav--next {
+  right: clamp(12px, 3vw, 36px);
+}
+
+/* Lightbox ouverte → on masque le « Contact » du header. */
+body.lb-open .site-contact {
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (max-width: 720px) {
   .gv__img {
     max-width: 92vw;
+  }
+  /* Header : tout sur une ligne, aligné à gauche, place réservée pour « Contact ». */
+  .site-header {
+    justify-content: flex-start;
+    padding: 0 84px 0 18px;
+    height: 64px;
+    font-size: 13px;
+  }
+  .site-header__title {
+    white-space: nowrap;
+  }
+  .site-contact {
+    top: 22px;
+    font-size: 13px;
+  }
+  /* Galerie horizontale : images centrées et alignées. */
+  .gv--h {
+    align-items: center;
   }
 }
 
