@@ -167,6 +167,29 @@ export class ShatterMesh {
   // pièce (pour la rotation rigide) et graine par pièce.
   private static buildGeometry(opts: ShatterOptions): THREE.BufferGeometry {
     const { width: W, height: H, cols: SX, rows: SY } = opts;
+    // Grille de sommets dont les INTÉRIEURS sont déplacés (jitter) → pièces
+    // irrégulières/anguleuses (vrais éclats de verre). Les sommets sont PARTAGÉS
+    // entre cellules voisines → les fêlures s'alignent (comme une vitre brisée).
+    // uv jitterés comme la position → la texture reste collée à la géométrie.
+    const NX = SX + 1;
+    const NY = SY + 1;
+    const U = new Array<number>(NX * NY);
+    const V = new Array<number>(NX * NY);
+    for (let j = 0; j < NY; j++) {
+      for (let i = 0; i < NX; i++) {
+        let u = i / SX;
+        let v = j / SY;
+        if (i > 0 && i < SX && j > 0 && j < SY) {
+          u += (hash01(i * 2 + 1, j * 3 + 7) - 0.5) * (0.74 / SX);
+          v += (hash01(i * 5 + 3, j * 7 + 2) - 0.5) * (0.74 / SY);
+        }
+        U[j * NX + i] = u;
+        V[j * NX + i] = v;
+      }
+    }
+    const px = (u: number) => -W / 2 + u * W;
+    const py = (v: number) => -H / 2 + v * H;
+
     const positions: number[] = [];
     const uvs: number[] = [];
     const centers: number[] = [];
@@ -174,24 +197,23 @@ export class ShatterMesh {
 
     for (let j = 0; j < SY; j++) {
       for (let i = 0; i < SX; i++) {
-        const x0 = -W / 2 + (i / SX) * W;
-        const x1 = -W / 2 + ((i + 1) / SX) * W;
-        const y0 = -H / 2 + (j / SY) * H;
-        const y1 = -H / 2 + ((j + 1) / SY) * H;
-        const u0 = i / SX;
-        const u1 = (i + 1) / SX;
-        const v0 = j / SY;
-        const v1 = (j + 1) / SY;
-        const cx = (x0 + x1) / 2;
-        const cy = (y0 + y1) / 2;
+        const a = j * NX + i;
+        const b = j * NX + i + 1;
+        const c = (j + 1) * NX + i + 1;
+        const d = (j + 1) * NX + i;
+        const cu = (U[a] + U[b] + U[c] + U[d]) / 4;
+        const cv = (V[a] + V[b] + V[c] + V[d]) / 4;
+        const cx = px(cu);
+        const cy = py(cv);
         const seed = hash01(i, j);
 
-        // A=(x0,y0) B=(x1,y0) C=(x1,y1) D=(x0,y1) → triangles A,B,C et A,C,D
-        const quadPos = [x0, y0, x1, y0, x1, y1, x0, y0, x1, y1, x0, y1];
-        const quadUv = [u0, v0, u1, v0, u1, v1, u0, v0, u1, v1, u0, v1];
+        // triangles A,B,C et A,C,D (sommets pris dans la grille jitterée partagée)
+        const cornerUv = [U[a], V[a], U[b], V[b], U[c], V[c], U[a], V[a], U[c], V[c], U[d], V[d]];
         for (let k = 0; k < 6; k++) {
-          positions.push(quadPos[k * 2], quadPos[k * 2 + 1], 0);
-          uvs.push(quadUv[k * 2], quadUv[k * 2 + 1]);
+          const u = cornerUv[k * 2];
+          const v = cornerUv[k * 2 + 1];
+          positions.push(px(u), py(v), 0);
+          uvs.push(u, v);
           centers.push(cx, cy, 0);
           seeds.push(seed);
         }
