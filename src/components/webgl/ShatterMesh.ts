@@ -50,11 +50,18 @@ const VERT = /* glsl */ `
     float ang = seed * 6.2831853;
     vec2 jitter = vec2(cos(ang), sin(ang));
     vec3 dir = normalize(vec3(radial * 0.65 + jitter * 0.5, mix(0.2, 1.1, seed)));
-    float dist = p * uSpread * (0.5 + seed * 1.1);
+    // Sélection des pièces « rémanentes » DÉCOUPLÉE de la graine de distance, sinon
+    // les pièces qui restent seraient celles qui volent le plus loin (hors écran).
+    float lingerRand = fract(sin(seed * 91.7) * 4391.3);
+    float isLinger = step(0.88, lingerRand);
+    // Les rémanentes volent moins loin → elles restent à l'écran et flottent.
+    float dist = p * uSpread * (0.5 + seed * 1.1) * mix(1.0, 0.5, isLinger);
 
     // Rotation rigide propre à la pièce (axe + sens + vitesse aléatoires).
+    // + lente rotation continue quand les éclats flottent (uFloat) → ils tournoient.
     vec3 axis = vec3(seed - 0.5, fract(seed * 7.13) - 0.5, fract(seed * 3.71) - 0.5);
-    float spin = p * (2.5 + seed * 7.0) * (fract(seed * 9.7) > 0.5 ? 1.0 : -1.0);
+    float dirSign = fract(seed * 9.7) > 0.5 ? 1.0 : -1.0;
+    float spin = p * (2.5 + seed * 7.0) * dirSign + uFloat * uTime * 0.22 * (seed - 0.5);
     mat3 rot = rotationMatrix(axis, spin);
 
     // Flottement ambiant (s'active après l'éclat, brique 5).
@@ -77,6 +84,8 @@ const FRAG = /* glsl */ `
   uniform sampler2D uTexture;
   uniform float uAberration;
   uniform float uOpacity;
+  uniform float uLinger;     // 0 = tout visible (burst) → 1 = seules les pièces « rémanentes » restent
+  uniform float uScrollFade; // 0→1 : le scroll efface les éclats restants
   varying vec2 vUv;
   varying float vProg;
   varying float vSeed;
@@ -95,7 +104,15 @@ const FRAG = /* glsl */ `
     // Les pièces les plus éclatées perdent un peu de lumière (matière qui s'éloigne).
     col *= 1.0 - 0.18 * vProg;
 
-    gl_FragColor = vec4(col, uOpacity);
+    // ~12% des pièces RESTENT et flottent ; les autres s'effacent après le burst
+    // (uLinger). Le scroll efface tout (uScrollFade). Sélection identique au vertex.
+    float lingerRand = fract(sin(vSeed * 91.7) * 4391.3);
+    float isLinger = step(0.88, lingerRand);
+    float persist = mix(1.0 - uLinger, 0.85, isLinger);
+    float alpha = uOpacity * persist * (1.0 - uScrollFade);
+    if (alpha < 0.004) discard;
+
+    gl_FragColor = vec4(col, alpha);
   }
 `;
 
@@ -131,6 +148,8 @@ export class ShatterMesh {
         uSpread: { value: Math.max(opts.width, opts.height) * 1.2 },
         uAberration: { value: 0.06 },
         uOpacity: { value: 1 },
+        uLinger: { value: 0 },
+        uScrollFade: { value: 0 },
       },
       transparent: true,
       depthWrite: true,

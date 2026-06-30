@@ -30,7 +30,7 @@ class TransitionEngine {
   private mode: Mode = "idle";
   private cbs: EngineCallbacks = {};
   private inputBound = false;
-  private transitioning = false; // vrai pendant l'éclat (canvas au-dessus du DOM galerie)
+  private shatterActive = false; // vrai tant que des éclats vivent (burst OU flottants restants)
 
   // Appelé une seule fois par PersistentCanvas. Idempotent : un re-mount React
   // (StrictMode/HMR) ne recrée ni le renderer ni les listeners.
@@ -93,6 +93,7 @@ class TransitionEngine {
   // (rejoue l'intro). Les callbacks sont relues en direct via `this.cbs`.
   showCylinder(images: string[], cbs: EngineCallbacks) {
     this.cbs = cbs;
+    this.endShatter(); // si on revient de la galerie, on efface tout éclat restant
     this.mode = "home";
     this.applyMode();
     if (!this.canvas) return;
@@ -114,7 +115,7 @@ class TransitionEngine {
   // le canvas doit rester au-dessus du DOM galerie jusqu'à la fin de l'éclat.
   hideCylinder() {
     this.cylinder?.hide();
-    if (!this.transitioning) {
+    if (!this.shatterActive) {
       this.mode = "idle";
       this.applyMode();
     }
@@ -145,35 +146,68 @@ class TransitionEngine {
       cyl.playExit(routerPush);
       return;
     }
-    this.transitioning = true;
+    this.shatterActive = true;
     cyl.playExit(() => {
       // Le panneau est déplié à plat → la fissure (identique) prend le relais.
       s.setTexture(cyl.getFocusTexture());
-      s.opacity = 1;
-      s.floatAmount = 0;
-      s.progress = 0;
+      const u = s.material.uniforms;
+      gsap.killTweensOf([u.uProgress, u.uLinger, u.uFloat, u.uOpacity, u.uScrollFade]);
+      u.uProgress.value = 0;
+      u.uLinger.value = 0;
+      u.uFloat.value = 0;
+      u.uOpacity.value = 1;
+      u.uScrollFade.value = 0;
       s.show();
       cyl.hide();
       this.mode = "transition";
       this.applyMode(); // le canvas couvre le DOM galerie pendant l'éclat
       routerPush();
 
-      gsap.killTweensOf(s.material.uniforms.uProgress);
-      gsap.killTweensOf(s.material.uniforms.uOpacity);
-      gsap.to(s.material.uniforms.uProgress, { value: 1, duration: 1.05, ease: "power3.inOut" });
-      gsap.to(s.material.uniforms.uOpacity, {
-        value: 0,
-        duration: 0.6,
-        delay: 0.6,
-        ease: "power2.in",
-        onComplete: () => {
-          s.hide();
-          this.transitioning = false;
-          this.mode = "idle";
-          this.applyMode(); // le canvas redescend sous le DOM galerie
-        },
-      });
+      // Explosion, puis la plupart des pièces s'effacent et ~12% RESTENT et flottent
+      // autour de la galerie (elles s'effaceront au scroll — cf. setScrollFade).
+      gsap.to(u.uProgress, { value: 1, duration: 1.05, ease: "power3.inOut" });
+      gsap.to(u.uLinger, { value: 1, duration: 0.7, delay: 0.55, ease: "power2.inOut" });
+      gsap.to(u.uFloat, { value: 1, duration: 1.3, delay: 0.6, ease: "power2.out" });
     });
+  }
+
+  // La galerie est montée. Rien à déclencher (l'éclat vient de l'accueil) — mais on
+  // expose le pilotage du fondu au scroll et un nettoyage à la sortie.
+  enterGallery() {
+    /* présence galerie : voir setScrollFade / leaveGallery */
+  }
+
+  // Le scroll de la galerie efface progressivement les éclats restants.
+  setScrollFade(p: number) {
+    if (!this.shatter || !this.shatterActive) return;
+    this.shatter.material.uniforms.uScrollFade.value = Math.max(0, Math.min(1, p));
+    if (p >= 0.99) this.endShatter(); // tout effacé → on libère le canvas
+  }
+
+  // Quitter la galerie (navigation) : on coupe net les éclats restants.
+  leaveGallery() {
+    this.endShatter();
+  }
+
+  // Éteint la fissure et remet ses uniforms à zéro pour la prochaine fois ; le canvas
+  // redescend sous le DOM (mode idle) s'il était en transition.
+  private endShatter() {
+    if (!this.shatterActive) return;
+    this.shatterActive = false;
+    if (this.shatter) {
+      const u = this.shatter.material.uniforms;
+      gsap.killTweensOf([u.uProgress, u.uLinger, u.uFloat, u.uOpacity, u.uScrollFade]);
+      u.uProgress.value = 0;
+      u.uLinger.value = 0;
+      u.uFloat.value = 0;
+      u.uOpacity.value = 1;
+      u.uScrollFade.value = 0;
+      this.shatter.hide();
+    }
+    if (this.mode === "transition") {
+      this.mode = "idle";
+      this.applyMode();
+    }
   }
 
   // Clic sur le canvas (géré par PersistentCanvas) → ouvrir la galerie, en mode accueil seulement.

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { engine } from "@/components/webgl/engine";
 
 export interface GalleryItem {
   src: string;
@@ -44,6 +45,23 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
     slideRefs.current.forEach((s) => s && io.observe(s));
     return () => io.disconnect();
   }, [items, dir]);
+
+  // Les éclats hérités de la transition (canvas persistant) flottent autour de la
+  // galerie et s'effacent quand on défile. On pilote leur fondu via le scroll.
+  useEffect(() => {
+    const root = scrollerRef.current;
+    engine.enterGallery();
+    const onScroll = () => {
+      if (!root) return;
+      const max = Math.max(1, window.innerHeight * 0.7);
+      engine.setScrollFade((root.scrollTop + root.scrollLeft) / max);
+    };
+    root?.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      root?.removeEventListener("scroll", onScroll);
+      engine.leaveGallery();
+    };
+  }, []);
 
   // Fermer la lightbox à l'Échap
   useEffect(() => {
