@@ -22,8 +22,8 @@ export function HeroCarousel({ onTilt }: { onTilt?: () => void }) {
   const openGallery = () => {
     if (engine.isExiting) return;
     setExiting(true);
-    const slug = categories[engine.activeIndex].slug;
-    engine.beginEnterGallery(() => router.push(`/galerie/${slug}`));
+    const cat = categories[engine.activeIndex];
+    engine.beginEnterGallery(cat.name, () => router.push(`/galerie/${cat.slug}`));
   };
 
   useEffect(() => {

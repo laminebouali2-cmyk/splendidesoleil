@@ -10,9 +10,55 @@
 // dans l'arbre React des pages). Les pages parlent au moteur ; le moteur émet via
 // les callbacks fournis. Init idempotent pour survivre au double-mount StrictMode.
 
+import * as THREE from "three";
 import { gsap } from "gsap";
 import { CarouselScene } from "@/components/hero/CarouselScene";
 import { ShatterMesh } from "./ShatterMesh";
+
+// Compose la photo du panneau + le nom du thème dans UNE texture → la fissure fait
+// exploser la page ET le titre ensemble (et non plus « seule l'image bouge »).
+function makeTitledTexture(
+  img: HTMLImageElement,
+  label: string,
+  aspect: number,
+): THREE.CanvasTexture {
+  const W = 1280;
+  const H = Math.max(1, Math.round(W / aspect));
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d")!;
+
+  // Photo en cover (recadrée pour remplir).
+  const ir = img.width / img.height;
+  const cr = W / H;
+  let dw: number, dh: number;
+  if (ir > cr) {
+    dh = H;
+    dw = H * ir;
+  } else {
+    dw = W;
+    dh = W / ir;
+  }
+  ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+
+  // Titre du thème, centré, dans la vraie police d'affichage (lue sur la var CSS).
+  const fam =
+    getComputedStyle(document.documentElement).getPropertyValue("--font-editorial").trim() ||
+    "Georgia, serif";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.42)";
+  ctx.shadowBlur = H * 0.045;
+  ctx.font = `${Math.round(H * 0.24)}px ${fam}`;
+  ctx.fillText(label, W / 2, H / 2 + H * 0.02);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  return tex;
+}
 
 type Mode = "idle" | "home" | "transition";
 
@@ -27,6 +73,7 @@ class TransitionEngine {
   private canvas: HTMLCanvasElement | null = null;
   private cylinder: CarouselScene | null = null;
   private shatter: ShatterMesh | null = null;
+  private titledTex: THREE.CanvasTexture | null = null; // composite photo+titre (à disposer)
   private mode: Mode = "idle";
   private cbs: EngineCallbacks = {};
   private inputBound = false;
@@ -134,7 +181,7 @@ class TransitionEngine {
   // 3) on navigue derrière (la galerie monte cachée, fond en CSS) pendant que le
   //    canvas passe au-dessus du DOM ; 4) les éclats se dispersent et s'effacent,
   //    le canvas redescend → galerie nette.
-  beginEnterGallery(routerPush: () => void) {
+  beginEnterGallery(label: string, routerPush: () => void) {
     if (!this.cylinder) {
       routerPush();
       return;
@@ -149,7 +196,18 @@ class TransitionEngine {
     this.shatterActive = true;
     cyl.playExit(() => {
       // Le panneau est déplié à plat → la fissure (identique) prend le relais.
-      s.setTexture(cyl.getFocusTexture());
+      // On compose photo + titre du thème → la PAGE ET LE TITRE explosent ensemble.
+      const photoTex = cyl.getFocusTexture();
+      const img = photoTex?.image as HTMLImageElement | undefined;
+      this.titledTex?.dispose();
+      this.titledTex = null;
+      if (img && img.width) {
+        const { width, height } = cyl.getFlatPanelSize();
+        this.titledTex = makeTitledTexture(img, label, width / height);
+        s.setTexture(this.titledTex);
+      } else {
+        s.setTexture(photoTex);
+      }
       const u = s.material.uniforms;
       gsap.killTweensOf([u.uProgress, u.uLinger, u.uFloat, u.uOpacity, u.uScrollFade]);
       u.uProgress.value = 0;
