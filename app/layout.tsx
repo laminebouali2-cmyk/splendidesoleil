@@ -21,10 +21,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/opt/IMG_3386.webp",
-        width: 2000,
-        height: 1334,
-        alt: "Splendide Soleil — photographe, lumière du soir",
+        url: "/opt/IMG_3432.webp",
+        width: 1920,
+        height: 1280,
+        alt: "Splendide Soleil — photographe",
       },
     ],
   },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Splendide Soleil — French photographer",
     description: OG_DESC,
-    images: ["/opt/IMG_3386.webp"],
+    images: ["/opt/IMG_3432.webp"],
   },
 };
 
