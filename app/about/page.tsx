@@ -33,12 +33,14 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      {/* Image plein cadre : elle EST le fond, le texte vit dessus */}
+      {/* L'image FAIT PARTIE de la page : elle émerge du blanc (fondu en haut),
+          le texte est centré dessus. Pas un rectangle posé. */}
       <section className="ab__full">
         <Image src={FULL} alt="" fill priority sizes="100vw" className="ab__full-img" />
-        <span className="ab__sign">Splendide Soleil</span>
-        <p className="ab__line">La lumière passe. Il en reste ceci.</p>
-        <span className="ab__mark">©2026</span>
+        <div className="ab__full-inner">
+          <p className="ab__line">La lumière passe. Il en reste ceci.</p>
+          <span className="ab__sign">Splendide Soleil — ©2026</span>
+        </div>
       </section>
 
       <PageDock name="À propos" />

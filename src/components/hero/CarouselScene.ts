@@ -13,16 +13,19 @@ const VERT = /* glsl */ `
   uniform float uSlot;        // angle d'un panneau (2π / N)
   uniform float uFlatScale;   // échelle de la bande à plat (toggle 0.55, exit ~1.9)
   varying vec2 vUv;
+  varying float vFacing;      // relief : 1 = face caméra, plus petit = de profil
   void main() {
     vUv = uv;
     float a = uAngle - uRotation;
+    // Replie l'angle dans [-π, π] → le panneau focus revient TOUJOURS au centre quel
+    // que soit le nombre de tours (fix : le panneau ne glisse plus latéralement à plat).
+    a -= 6.28318530718 * floor(a / 6.28318530718 + 0.5);
     float theta = a + position.x / uRadius;            // angle le long de l'arc
     vec3 bent = vec3(sin(theta) * uRadius, position.y, cos(theta) * uRadius);
+    vFacing = cos(theta);                              // bords du tambour → plus sombres (relief)
 
-    // À plat : le cylindre se DÉROULE en bande horizontale (bracelet détaché). L'image
-    // focus est au centre, les voisines dépassent sur les côtés. uFlatScale règle la taille
-    // (toggle = bande ; à l'exit = le panneau focus grandit pour remplir l'écran).
-    float arc = a * uRadius + position.x;        // longueur d'arc déroulée
+    // À plat : le cylindre se DÉROULE en bande horizontale, panneau focus centré (a≈0).
+    float arc = a * uRadius + position.x;
     vec3 flatPos = vec3(arc * uFlatScale, position.y * uFlatScale, uRadius);
 
     vec3 pos = mix(bent, flatPos, uCurveState);
@@ -37,7 +40,9 @@ const FRAG = /* glsl */ `
   uniform float uAberr;
   uniform float uReflect;
   uniform float uAlpha;
+  uniform float uCurveState;
   varying vec2 vUv;
+  varying float vFacing;
 
   void main() {
     vec2 uv = vUv;
@@ -48,6 +53,10 @@ const FRAG = /* glsl */ `
     float g = texture2D(uTex, vec2(uv.x, uv.y)).g;
     float b = texture2D(uTex, vec2(uv.x + dir * a, uv.y)).b;
     vec3 col = vec3(r, g, b);
+
+    // Relief 3D : les bords du tambour (de profil) s'assombrissent. Coupé à plat.
+    float shade = mix(0.5 + 0.5 * smoothstep(-0.1, 1.0, vFacing), 1.0, uCurveState);
+    col *= shade;
 
     float alpha = uAlpha;
     if (uReflect > 0.5) {
