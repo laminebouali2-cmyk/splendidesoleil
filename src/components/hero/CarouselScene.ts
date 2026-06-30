@@ -374,7 +374,14 @@ export class CarouselScene {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.renderer.setSize(w, h, false);
-    this.camera.aspect = w / h;
+    const aspect = w / h;
+    this.camera.aspect = aspect;
+    // Sur écran étroit (portrait/mobile), on RECULE la caméra pour que tout le
+    // cylindre tienne en largeur — sinon il déborde et on n'en voit qu'un arc géant.
+    const vFov = (this.camera.fov * Math.PI) / 180;
+    const targetWidth = 7.2; // largeur monde que le tambour doit occuper
+    const distForWidth = targetWidth / (2 * Math.tan(vFov / 2) * aspect);
+    this.camera.position.z = Math.max(this.camZ, distForWidth);
     this.camera.updateProjectionMatrix();
   };
 
