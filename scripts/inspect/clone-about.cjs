@@ -1,0 +1,20 @@
+const { chromium } = require('playwright');
+const path = require('path'); const fs = require('fs');
+(async () => {
+  const outDir = path.join(__dirname, 'out', 'clone-about'); fs.mkdirSync(outDir, { recursive: true });
+  const b = await chromium.launch({ headless: false, args: ['--ignore-gpu-blocklist'] });
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+  const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push(String(e).slice(0,160)));
+  await p.goto('http://localhost:3001/about', { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await p.waitForTimeout(3500);
+  await p.screenshot({ path: path.join(outDir, 'top.jpg'), type: 'jpeg', quality: 74 });
+  await p.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+  await p.waitForTimeout(2500);
+  await p.screenshot({ path: path.join(outDir, 'image.jpg'), type: 'jpeg', quality: 74 });
+  await p.evaluate(() => window.scrollTo({ top: document.body.scrollHeight * 0.42, behavior: 'instant' }));
+  await p.waitForTimeout(2000);
+  await p.screenshot({ path: path.join(outDir, 'lead.jpg'), type: 'jpeg', quality: 74 });
+  console.log('errs:', errs.length ? errs.join(' | ') : 'none');
+  await ctx.close(); await b.close();
+})().catch(e => { console.error(e); process.exit(1); });

@@ -1,0 +1,20 @@
+const { chromium } = require('playwright');
+const path = require('path');
+(async () => {
+  const outDir = path.join(__dirname, 'out', 'ref-about');
+  require('fs').mkdirSync(outDir, { recursive: true });
+  const b = await chromium.launch({ headless: false, args: ['--ignore-gpu-blocklist'] });
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+  const p = await ctx.newPage();
+  await p.goto('https://aikawakenichi.com/about', { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await p.waitForTimeout(9000);
+  await p.screenshot({ path: path.join(outDir, 'top.jpg'), type: 'jpeg', quality: 72 });
+  await p.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+  await p.waitForTimeout(3500);
+  await p.screenshot({ path: path.join(outDir, 'bottom.jpg'), type: 'jpeg', quality: 72 });
+  await p.evaluate(() => window.scrollTo({ top: document.body.scrollHeight * 0.5, behavior: 'instant' }));
+  await p.waitForTimeout(2500);
+  await p.screenshot({ path: path.join(outDir, 'mid.jpg'), type: 'jpeg', quality: 72 });
+  await ctx.close(); await b.close();
+  console.log('done');
+})().catch(e => { console.error(e); process.exit(1); });
