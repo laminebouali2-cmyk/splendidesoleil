@@ -101,6 +101,23 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
     };
   }, [lightbox, total]);
 
+  // Bascule vertical ↔ horizontal : on RESTE sur l'image courante (pas de retour en haut).
+  const activeRef = useRef(active);
+  activeRef.current = active;
+  const dirMounted = useRef(false);
+  useEffect(() => {
+    if (!dirMounted.current) {
+      dirMounted.current = true;
+      return;
+    }
+    const el = slideRefs.current[activeRef.current];
+    if (el) {
+      requestAnimationFrame(() =>
+        el.scrollIntoView({ block: "center", inline: "center", behavior: "auto" }),
+      );
+    }
+  }, [dir]);
+
   const goTo = (slide: number) => {
     const clamped = Math.min(slideRefs.current.length - 1, Math.max(0, slide));
     slideRefs.current[clamped]?.scrollIntoView({
