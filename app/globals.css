@@ -57,21 +57,23 @@ a {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 0 0;
+  padding: 26px 0 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  font-family: var(--font-neue), sans-serif;
-  line-height: 1.15;
+  align-items: baseline;
+  justify-content: center; /* le lien bien centré */
   z-index: 20;
   text-align: center;
+  font-family: var(--font-neue), sans-serif;
+  line-height: 1.15;
 }
 
-/* Le lien (nom) : mis en valeur — plus gras, souligné net, donne envie de cliquer. */
+.site-header__title {
+  white-space: nowrap; /* une seule ligne */
+}
+
+/* Le nom = lien mis en valeur (centré, voyant). */
 .site-header__brand {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   color: #000;
   letter-spacing: 0.01em;
@@ -85,9 +87,9 @@ a {
   color: var(--terre);
 }
 
-/* Le sous-titre : volontairement discret (plus clair, plus léger) pour valoriser le lien. */
-.site-header__sub {
-  font-size: 13px;
+/* Le descriptif : petit et discret, le nom reste dominant et centré. */
+.site-header__role {
+  font-size: 12px;
   font-weight: 400;
   color: rgba(42, 27, 18, 0.5);
   letter-spacing: 0.02em;
@@ -814,20 +816,21 @@ a {
 /* ----- « Contact » discret (header global) + voile des réseaux ----- */
 .site-contact {
   position: fixed;
-  top: 30px;
-  right: clamp(20px, 4vw, 56px);
+  top: 18px; /* pas au même niveau que le nom centré */
+  right: clamp(16px, 4vw, 48px);
   z-index: 40;
   border: none;
   background: none;
   cursor: pointer;
   font-family: var(--font-neue), sans-serif;
-  font-size: 15px;
-  color: #000;
-  letter-spacing: 0.01em;
+  font-size: 12px; /* plus petit que le lien */
+  color: #2a1b12;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   padding: 6px 2px;
   text-decoration: underline;
   text-underline-offset: 4px;
-  opacity: 0.72;
+  opacity: 0.6;
   transition: opacity 0.3s ease;
 }
 
@@ -1217,9 +1220,20 @@ body.lb-open .site-contact {
   .gv__img {
     max-width: 92vw;
   }
+  /* Mobile : on SÉPARE les niveaux — Contact tout en haut, le nom (centré) en dessous
+     → plus aucun chevauchement, même si la ligne est large. */
   .site-contact {
-    top: 20px;
-    font-size: 13px;
+    top: 12px;
+    font-size: 11px;
+  }
+  .site-header {
+    padding-top: 40px;
+  }
+  .site-header__brand {
+    font-size: 15px;
+  }
+  .site-header__role {
+    font-size: 11px;
   }
   /* Galerie horizontale : images centrées et alignées. */
   .gv--h {
