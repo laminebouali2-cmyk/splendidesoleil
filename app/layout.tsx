@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { editorialOld, neueMontreal } from "./fonts";
+import { PersistentCanvas } from "@/components/webgl/PersistentCanvas";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${editorialOld.variable} ${neueMontreal.variable}`}>
-      <body>{children}</body>
+      <body>
+        <PersistentCanvas />
+        {children}
+      </body>
     </html>
   );
 }

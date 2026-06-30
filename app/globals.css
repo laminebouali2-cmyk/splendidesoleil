@@ -116,6 +116,25 @@ a {
   cursor: pointer;
 }
 
+/* ----- Canvas WebGL persistant (monté dans le layout, frère de {children}) ----- */
+/* Idle (galerie/about) : derrière le DOM, non cliquable, rendu transparent.
+   Accueil : remonte au-dessus du fond .hero et redevient cliquable. */
+.webgl-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.webgl-stage--home {
+  z-index: 2;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .hero__label {
   position: fixed;
   top: 56%;

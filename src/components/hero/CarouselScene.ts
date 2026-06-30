@@ -120,6 +120,7 @@ export class CarouselScene {
   private loadedCount = 0;
   private readyFrames = 0;
   private isFlat = false;
+  private hidden = false; // vrai quand on n'est pas sur l'accueil (canvas persistant) : rendu transparent
 
   constructor(canvas: HTMLCanvasElement, options: CarouselSceneOptions) {
     this.images = options.images;
@@ -256,6 +257,58 @@ export class CarouselScene {
     return this.isFlat;
   }
 
+  // Le canvas vit dans le layout (jamais démonté) : index courant + état d'exit
+  // sont la source de vérité pour le contrôleur React (HeroCarousel).
+  get activeIndex() {
+    return ((this.index % this.N) + this.N) % this.N;
+  }
+
+  get isExiting() {
+    return this.exiting;
+  }
+
+  // L'accueil quitte la scène (navigation) → on cache le cylindre mais on continue
+  // de rendre (transparent) pour effacer la dernière frame (sinon elle resterait
+  // « gravée » derrière la galerie).
+  hide() {
+    this.hidden = true;
+    this.group.visible = false;
+    this.reflection.visible = false;
+  }
+
+  // Retour sur l'accueil : on remet la scène à zéro et on rejoue l'intro
+  // (les textures sont déjà chargées → pas de gate à attendre).
+  show() {
+    this.hidden = false;
+    this.group.visible = true;
+    this.resetState();
+    this.playIntro();
+  }
+
+  // Remet le tambour dans l'état de départ après un playExit (les proxies/alphas
+  // avaient été poussés vers l'état « déplié + effacé »).
+  private resetState() {
+    gsap.killTweensOf([this.rotProxy, this.curveProxy, this.flatScaleProxy]);
+    this.exiting = false;
+    this.isFlat = false;
+    this.isAnimating = false;
+    this.wheelAccum = 0;
+    this.index = 0;
+    this.rotProxy.v = 0;
+    this.curveProxy.v = 0;
+    this.flatScaleProxy.v = 0.55;
+    this.targetRX = 0;
+    this.pointerX = 0;
+    this.group.children.forEach((mesh) => {
+      const mat = (mesh as THREE.Mesh).material as THREE.ShaderMaterial;
+      gsap.killTweensOf(mat.uniforms.uAlpha);
+      mat.uniforms.uAlpha.value = 1;
+      mat.transparent = false;
+      mat.depthWrite = true;
+    });
+    this.onChange?.(0);
+  }
+
   // Transition de sortie : le panneau focus se DÉPLIE à plat et GRANDIT pour remplir
   // l'écran, les autres panneaux s'effacent. onComplete est appelé juste avant la
   // navigation → la galerie enchaîne avec l'explosion en fragments.
@@ -329,6 +382,10 @@ export class CarouselScene {
 
   private animate = () => {
     this.raf = requestAnimationFrame(this.animate);
+    if (this.hidden) {
+      this.renderer.render(this.scene, this.camera); // efface (group invisible → transparent)
+      return;
+    }
     if (this.texturesReady && !this.introStarted) {
       this.readyFrames++;
       if (this.readyFrames > 3) {

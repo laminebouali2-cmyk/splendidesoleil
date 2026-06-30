@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# captures d'inspection Playwright (artefacts de test, non versionnés)
+/scripts/inspect/out/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -1,76 +1,50 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { categories } from "@/data/categories";
-import { CarouselScene } from "./CarouselScene";
+import { engine } from "@/components/webgl/engine";
 import { Dock } from "./Dock";
 
+// Contrôleur de l'accueil. Le canvas WebGL ne lui appartient plus : il vit dans le
+// layout (PersistentCanvas) et est piloté par le moteur persistant. Ce composant
+// ne fait que : demander l'affichage du cylindre à l'entrée, le cacher à la sortie,
+// et brancher les boutons (label / dock) sur les commandes du moteur.
 export function HeroCarousel({ onTilt }: { onTilt?: () => void }) {
   const router = useRouter();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sceneRef = useRef<CarouselScene | null>(null);
   const [active, setActive] = useState(0);
   const [flat, setFlat] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [ready, setReady] = useState(false);
 
-  // Clic sur un panneau : il se déplie en plein écran (playExit), puis on navigue
-  // vers la galerie qui enchaîne avec l'explosion en fragments.
+  // Clic sur un panneau : il se déplie (playExit), puis on navigue vers la galerie.
+  // L'index courant est lu sur le moteur (source de vérité) → pas de closure périmée.
   const openGallery = () => {
-    if (exiting) return;
+    if (engine.isExiting) return;
     setExiting(true);
-    const slug = categories[active].slug;
-    const scene = sceneRef.current;
-    if (scene) scene.playExit(() => router.push(`/galerie/${slug}`));
-    else router.push(`/galerie/${slug}`);
+    const slug = categories[engine.activeIndex].slug;
+    engine.playExit(() => router.push(`/galerie/${slug}`));
   };
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const scene = new CarouselScene(canvas, {
-      images: categories.map((c) => c.image),
-      onChange: setActive,
-      onTilt,
-      onReady: () => setReady(true),
-    });
-    sceneRef.current = scene;
-    scene.start();
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      scene.onWheel(e.deltaY);
-    };
-    const onPointer = (e: PointerEvent) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      scene.onPointerMove(nx, ny);
-    };
-    const onResize = () => scene.resize();
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("pointermove", onPointer);
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("resize", onResize);
-      scene.dispose();
-    };
+    engine.showCylinder(
+      categories.map((c) => c.image),
+      {
+        onChange: setActive,
+        onTilt,
+        onReady: () => setReady(true),
+        onActivate: openGallery,
+      },
+    );
+    return () => engine.hideCylinder();
+    // Montage/démontage uniquement : le moteur gère la persistance.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cat = categories[active];
 
   return (
     <>
-      <canvas
-        ref={canvasRef}
-        className="hero__canvas hero__canvas--clickable"
-        onClick={openGallery}
-      />
       <button
         className={`hero__label${ready ? " hero__label--ready" : ""}${exiting ? " hero__label--exit" : ""}`}
         key={cat.id}
@@ -82,10 +56,10 @@ export function HeroCarousel({ onTilt }: { onTilt?: () => void }) {
         category={cat}
         flat={flat}
         onOpen={openGallery}
-        onPrev={() => sceneRef.current?.prev()}
-        onNext={() => sceneRef.current?.next()}
+        onPrev={() => engine.prev()}
+        onNext={() => engine.next()}
         onToggleFlat={() => {
-          sceneRef.current?.toggleFlat();
+          engine.toggleFlat();
           setFlat((f) => !f);
         }}
       />
