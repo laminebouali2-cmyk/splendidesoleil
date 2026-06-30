@@ -10,7 +10,9 @@
 // dans l'arbre React des pages). Les pages parlent au moteur ; le moteur émet via
 // les callbacks fournis. Init idempotent pour survivre au double-mount StrictMode.
 
+import { gsap } from "gsap";
 import { CarouselScene } from "@/components/hero/CarouselScene";
+import { ShatterMesh } from "./ShatterMesh";
 
 type Mode = "idle" | "home";
 
@@ -24,6 +26,7 @@ export interface EngineCallbacks {
 class TransitionEngine {
   private canvas: HTMLCanvasElement | null = null;
   private cylinder: CarouselScene | null = null;
+  private shatter: ShatterMesh | null = null;
   private mode: Mode = "idle";
   private cbs: EngineCallbacks = {};
   private inputBound = false;
@@ -43,7 +46,47 @@ class TransitionEngine {
     window.addEventListener("wheel", this.onWheel, { passive: false });
     window.addEventListener("pointermove", this.onPointer);
     window.addEventListener("resize", this.onResize);
+    window.addEventListener("keydown", this.onKey);
   }
+
+  // Crée la fissure UNE fois, partagée dans la scène du cylindre (même contexte WebGL),
+  // dimensionnée pile sur le panneau déplié pour un raccord invisible.
+  private ensureShatter() {
+    if (this.shatter || !this.cylinder) return;
+    const { scene } = this.cylinder.getContext();
+    const { width, height, z } = this.cylinder.getFlatPanelSize();
+    const aspect = width / height;
+    const N = 720; // ~grille dense (recette ≈ 20×40), cellules quasi carrées
+    const cols = Math.max(8, Math.round(Math.sqrt(N * aspect)));
+    const rows = Math.max(8, Math.round(N / cols));
+    this.shatter = new ShatterMesh({ width, height, z, cols, rows });
+    scene.add(this.shatter.mesh);
+    this.cylinder.addFrameHook((now) => {
+      if (this.shatter) this.shatter.time = now / 1000;
+    });
+  }
+
+  // DEBUG (brique 3) : déclenche la fissure isolée sur le panneau focus (touche F).
+  // Cache le cylindre pour voir l'éclat sur fond blanc. Sera remplacé par le flux
+  // clic→galerie en brique 4.
+  debugShatter() {
+    if (!this.cylinder) return;
+    this.ensureShatter();
+    const s = this.shatter;
+    if (!s) return;
+    this.cylinder.hide();
+    s.setTexture(this.cylinder.getFocusTexture());
+    s.opacity = 1;
+    s.floatAmount = 0;
+    s.progress = 0;
+    s.show();
+    gsap.killTweensOf(s.material.uniforms.uProgress);
+    gsap.to(s.material.uniforms.uProgress, { value: 1, duration: 1.05, ease: "power3.inOut" });
+  }
+
+  private onKey = (e: KeyboardEvent) => {
+    if (e.key === "f" || e.key === "F") this.debugShatter();
+  };
 
   // L'accueil prend la main : crée le cylindre à la 1re visite, sinon le ré-affiche
   // (rejoue l'intro). Les callbacks sont relues en direct via `this.cbs`.

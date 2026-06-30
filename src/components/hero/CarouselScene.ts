@@ -109,6 +109,7 @@ export class CarouselScene {
   private exiting = false;
 
   private raf = 0;
+  private frameHooks: ((nowMs: number) => void)[] = [];
   private index = 0;
   private targetRX = 0;
   private pointerX = 0;
@@ -267,6 +268,28 @@ export class CarouselScene {
     return this.exiting;
   }
 
+  // Le moteur partage le MÊME contexte Three pour la fissure / les éclats (un seul
+  // renderer, une seule scène, une seule caméra → transition sans couture).
+  getContext() {
+    return { scene: this.scene, camera: this.camera, renderer: this.renderer };
+  }
+
+  // Texture du panneau actuellement au centre (entrée de la fissure).
+  getFocusTexture(): THREE.Texture | null {
+    return this.textures[this.activeIndex] ?? null;
+  }
+
+  // Dimensions/position du panneau focus une fois DÉPLIÉ à plat (état de playExit) →
+  // la fissure naît exactement à sa place pour un raccord invisible.
+  getFlatPanelSize() {
+    const flatScale = 0.62; // identique à playExit
+    return {
+      width: this.slot * this.R * this.gap * flatScale,
+      height: this.H * flatScale,
+      z: this.R,
+    };
+  }
+
   // L'accueil quitte la scène (navigation) → on cache le cylindre mais on continue
   // de rendre (transparent) pour effacer la dernière frame (sinon elle resterait
   // « gravée » derrière la galerie).
@@ -380,8 +403,16 @@ export class CarouselScene {
     );
   }
 
+  // Hooks de frame du moteur (fissure/éclats) : tournent même quand le cylindre est
+  // caché (mode galerie), car c'est justement là que la fissure vit.
+  addFrameHook(fn: (nowMs: number) => void) {
+    this.frameHooks.push(fn);
+  }
+
   private animate = () => {
     this.raf = requestAnimationFrame(this.animate);
+    const now = performance.now();
+    for (const h of this.frameHooks) h(now);
     if (this.hidden) {
       this.renderer.render(this.scene, this.camera); // efface (group invisible → transparent)
       return;
