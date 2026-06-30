@@ -63,6 +63,28 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
     };
   }, []);
 
+  // Reveal au scroll : chaque image apparaît (fondu + montée) quand elle entre en vue
+  // (comme le vrai site : les images se révèlent au passage).
+  useEffect(() => {
+    const root = scrollerRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { root, threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+    );
+    slideRefs.current.forEach((s, i) => {
+      if (s && i >= 1 && i <= total) io.observe(s);
+    });
+    return () => io.disconnect();
+  }, [items, dir, total]);
+
   // Fermer la lightbox à l'Échap
   useEffect(() => {
     if (lightbox === null) return;
@@ -100,7 +122,7 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
         {items.map((it, i) => (
           <figure
             key={it.src}
-            className="gv__slide"
+            className="gv__slide gv__fig reveal"
             data-i={i + 1}
             ref={(el) => {
               slideRefs.current[i + 1] = el;
@@ -170,10 +192,24 @@ export function GalleryViewer({ items, name, tagline, others }: Props) {
         <button
           className={`dock__round${dir === "h" ? " dock__round--active" : ""}`}
           onClick={() => setDir((d) => (d === "v" ? "h" : "v"))}
-          aria-label="Changer le sens de défilement"
+          aria-label={dir === "v" ? "Défilement horizontal" : "Défilement vertical"}
           aria-pressed={dir === "h"}
         >
-          <span className="dock__round-icon" />
+          {dir === "h" ? (
+            // mode horizontal actif → 3 colonnes
+            <svg className="dock__round-svg" viewBox="0 0 20 20" aria-hidden="true">
+              <rect x="3.6" y="4" width="2" height="12" rx="1" fill="currentColor" />
+              <rect x="9" y="4" width="2" height="12" rx="1" fill="currentColor" />
+              <rect x="14.4" y="4" width="2" height="12" rx="1" fill="currentColor" />
+            </svg>
+          ) : (
+            // mode vertical actif → 3 rangées
+            <svg className="dock__round-svg" viewBox="0 0 20 20" aria-hidden="true">
+              <rect x="4" y="4.6" width="12" height="2" rx="1" fill="currentColor" />
+              <rect x="4" y="9" width="12" height="2" rx="1" fill="currentColor" />
+              <rect x="4" y="13.4" width="12" height="2" rx="1" fill="currentColor" />
+            </svg>
+          )}
         </button>
       </nav>
 

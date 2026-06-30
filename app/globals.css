@@ -815,33 +815,58 @@ a {
   display: none;
 }
 
+/* Vertical : défilement naturel, images RAPPROCHÉES (fini le « 1 image plein écran »). */
 .gv--v {
-  display: flex;
-  flex-direction: column;
-  scroll-snap-type: y mandatory;
-  overflow-x: hidden;
+  display: block;
 }
 
+/* Horizontal : bande, colonnes côte à côte. */
 .gv--h {
   display: flex;
   flex-direction: row;
-  scroll-snap-type: x mandatory;
+  height: 100vh;
   overflow-y: hidden;
+  scroll-snap-type: x proximity;
 }
 
-.gv__slide {
-  flex: 0 0 100%;
+/* Cartes titre / fin : pleine hauteur, centrées (respiration avant/après la série). */
+.gv__title,
+.gv__end {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* l'image monte un peu (laisse respirer le dock en bas) */
   padding-bottom: 104px;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
   position: relative;
+  text-align: center;
+  color: #0f0f0f;
+}
+.gv--h .gv__title,
+.gv--h .gv__end {
+  flex: 0 0 100vw;
+  min-height: 0;
+  height: 100vh;
+}
+
+/* Une image : espacement vertical SERRÉ (les images se suivent de près). */
+.gv__fig {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 0;
+  position: relative;
+}
+.gv__fig:first-of-type {
+  padding-top: 0.5vh; /* la 1ère image remonte */
+}
+.gv--h .gv__fig {
+  flex: 0 0 auto;
+  height: 100vh;
+  padding: 0 1.2vw;
+  scroll-snap-align: center;
 }
 
 .gv__imgbtn {
@@ -859,14 +884,21 @@ a {
   transform: scale(1.012);
 }
 
+/* Placeholder « un peu plus carré » (cadre uniforme, cover centré) — comme le vrai site. */
 .gv__img {
-  width: auto;
-  height: auto;
-  max-width: 64vw;
-  max-height: 78vh;
-  object-fit: contain;
   display: block;
   border-radius: 2px;
+  width: clamp(280px, 46vw, 60vh);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  max-width: 92vw;
+}
+.gv--h .gv__img {
+  width: auto;
+  height: min(72vh, 80vw);
+  aspect-ratio: 1 / 1;
 }
 
 /* Cartes titre / fin */
