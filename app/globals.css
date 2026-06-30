@@ -583,101 +583,6 @@ a {
   }
 }
 
-/* ============ Verre brisé (entrée galerie) — éclats irréguliers 3D ============ */
-/* Plein écran + fond OPAQUE : on ne voit jamais la page de destination pendant
-   l'explosion. La perspective donne la profondeur (les éclats partent en 3D). */
-.shatter {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  background: #fff;
-  overflow: hidden;
-  perspective: 1500px;
-  transform-style: preserve-3d;
-}
-
-/* Flash blanc à l'instant de la casse — « toute la page réagit ». */
-.shatter__flash {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  opacity: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-.shatter.is-fall .shatter__flash {
-  animation: shatterFlash 0.55s ease-out both;
-}
-@keyframes shatterFlash {
-  0% {
-    opacity: 0;
-  }
-  16% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.shatter__shard {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform-style: preserve-3d;
-  /* drop-shadow suit la découpe du clip-path → vrai relief entre les éclats */
-  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.28));
-  opacity: 1;
-  will-change: transform, opacity;
-  /* transform / opacity / transition sont posés en inline (calculés en JS) */
-}
-
-/* Reflet vitré + arête sombre, découpés par le clip-path de l'éclat. */
-.shatter__shard::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(128deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 36%),
-    linear-gradient(312deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0) 30%);
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-
-/* Le titre du panneau explose lui aussi (s'agrandit, flou, s'efface). */
-.shatter__label {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  font-family: var(--font-editorial), serif;
-  text-transform: uppercase;
-  font-size: clamp(3rem, 12vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-shadow: 0 6px 44px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-  transition:
-    transform 1.4s cubic-bezier(0.22, 0.5, 0.2, 1),
-    opacity 1s ease,
-    filter 1.2s ease;
-}
-.shatter.is-fall .shatter__label {
-  transform: translate(-50%, -64%) scale(1.7);
-  opacity: 0;
-  filter: blur(20px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .shatter {
-    display: none;
-  }
-}
-
 /* ============ Dock sous-pages ============ */
 .dock__lead {
   width: 56px;
@@ -1107,8 +1012,7 @@ a {
     transform: none !important;
     transition: none !important;
   }
-  .ed-fig__img,
-  .shatter__shard {
+  .ed-fig__img {
     transition: none !important;
   }
 }

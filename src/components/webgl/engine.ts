@@ -62,6 +62,13 @@ function makeTitledTexture(
 
 type Mode = "idle" | "home" | "transition";
 
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export interface EngineCallbacks {
   onChange?: (index: number) => void;
   onTilt?: () => void;
@@ -94,7 +101,6 @@ class TransitionEngine {
     window.addEventListener("wheel", this.onWheel, { passive: false });
     window.addEventListener("pointermove", this.onPointer);
     window.addEventListener("resize", this.onResize);
-    window.addEventListener("keydown", this.onKey);
   }
 
   // Crée la fissure UNE fois, partagée dans la scène du cylindre (même contexte WebGL),
@@ -113,28 +119,6 @@ class TransitionEngine {
       if (this.shatter) this.shatter.time = now / 1000;
     });
   }
-
-  // DEBUG (brique 3) : déclenche la fissure isolée sur le panneau focus (touche F).
-  // Cache le cylindre pour voir l'éclat sur fond blanc. Sera remplacé par le flux
-  // clic→galerie en brique 4.
-  debugShatter() {
-    if (!this.cylinder) return;
-    this.ensureShatter();
-    const s = this.shatter;
-    if (!s) return;
-    this.cylinder.hide();
-    s.setTexture(this.cylinder.getFocusTexture());
-    s.opacity = 1;
-    s.floatAmount = 0;
-    s.progress = 0;
-    s.show();
-    gsap.killTweensOf(s.material.uniforms.uProgress);
-    gsap.to(s.material.uniforms.uProgress, { value: 1, duration: 1.05, ease: "power3.inOut" });
-  }
-
-  private onKey = (e: KeyboardEvent) => {
-    if (e.key === "f" || e.key === "F") this.debugShatter();
-  };
 
   // L'accueil prend la main : crée le cylindre à la 1re visite, sinon le ré-affiche
   // (rejoue l'intro). Les callbacks sont relues en direct via `this.cbs`.
@@ -182,7 +166,9 @@ class TransitionEngine {
   //    canvas passe au-dessus du DOM ; 4) les éclats se dispersent et s'effacent,
   //    le canvas redescend → galerie nette.
   beginEnterGallery(label: string, routerPush: () => void) {
-    if (!this.cylinder) {
+    // Mouvement réduit : pas d'explosion, on navigue directement (la galerie a déjà
+    // son entrée neutralisée par @media prefers-reduced-motion).
+    if (!this.cylinder || prefersReducedMotion()) {
       routerPush();
       return;
     }
