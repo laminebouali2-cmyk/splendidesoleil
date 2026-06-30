@@ -675,8 +675,7 @@ a {
 
 /* ============ À propos v2 — calque du vrai site (titre géant + image-fond) ============ */
 .ab {
-  /* le blanc vire vers la couleur chaude de l'image en bas → l'image s'y fond */
-  background: linear-gradient(to bottom, #fff 0%, #fff 30%, #f0dcbf 58%, #d8b88c 100%);
+  background: #fff;
   color: #1a120c;
   min-height: 100vh;
   overflow-x: hidden;
@@ -697,33 +696,66 @@ a {
 }
 
 .ab__role {
-  margin-top: clamp(18px, 3vw, 38px);
-  font-family: var(--font-editorial), serif;
-  font-style: italic;
-  font-size: clamp(1.3rem, 3vw, 2.4rem);
-  letter-spacing: 0.005em;
+  margin-top: clamp(16px, 2.6vw, 32px);
+  font-family: var(--font-neue), sans-serif;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  letter-spacing: 0.02em;
   color: #2a1b12;
-  opacity: 0.92;
+  opacity: 0.78;
 }
 
-/* Récit : texte sensible + réseaux écrits, dans la police d'affichage. */
-.ab__story {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: clamp(80px, 15vh, 190px) clamp(24px, 6vw, 96px) clamp(70px, 12vh, 150px);
-  text-align: center;
+/* Image plein cadre IMMERSIVE (entière) ; texte + réseaux posés dessus → l'image
+   fait corps avec la page (comme le vrai site), pas un rectangle séparé. */
+.ab__canvas {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(90px, 14vh, 180px) clamp(28px, 7vw, 130px) clamp(130px, 17vh, 200px);
+  overflow: hidden;
 }
 
+.ab__bg-img {
+  object-fit: cover;
+  filter: brightness(1.05) saturate(1.02) blur(3px); /* fond atmosphérique doux */
+  transform: scale(1.04); /* masque le bord flou */
+}
+
+/* voile clair (plus dense côté texte) → l'image reste visible mais le texte sombre
+   s'y intègre et reste lisible. */
+.ab__canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(248, 240, 227, 0.82) 0%,
+    rgba(248, 240, 227, 0.55) 46%,
+    rgba(248, 240, 227, 0.18) 100%
+  );
+  pointer-events: none;
+}
+
+.ab__overlay {
+  position: relative;
+  z-index: 1;
+  max-width: 1060px;
+}
+
+/* texte LARGE (plus large que long), police sans nette comme le vrai site */
 .ab__text {
-  font-family: var(--font-editorial), serif;
-  font-size: clamp(1.5rem, 3.1vw, 2.6rem);
-  line-height: 1.34;
-  letter-spacing: -0.005em;
-  color: #2a1b12;
+  font-family: var(--font-neue), sans-serif;
+  font-size: clamp(1.4rem, 2.9vw, 2.5rem);
+  line-height: 1.22;
+  letter-spacing: -0.012em;
+  color: #1a0f07;
+  max-width: 100%;
 }
 
 .ab__contact {
-  margin-top: clamp(48px, 8vh, 96px);
+  margin-top: clamp(44px, 8vh, 92px);
 }
 
 .ab__contact-kicker {
@@ -732,23 +764,23 @@ a {
   font-size: 12px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 22px;
+  color: #2a1b12;
+  opacity: 0.55;
+  margin-bottom: 18px;
 }
 
 .ab__contact-list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(20px, 4vw, 52px);
+  gap: clamp(18px, 3.4vw, 46px);
 }
 
 .ab__contact-link {
   font-family: var(--font-editorial), serif;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  color: #2a1b12;
-  opacity: 0.82;
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  color: #1a0f07;
+  opacity: 0.86;
   border-bottom: 1px solid transparent;
   transition:
     opacity 0.3s ease,
@@ -758,21 +790,6 @@ a {
 .ab__contact-link:hover {
   opacity: 1;
   border-color: var(--terre);
-}
-
-/* L'image émerge du fond chaud de la page : masque qui fond le HAUT et le BAS dans
-   le dégradé → elle fait corps avec le fond couleur, pas un rectangle posé. */
-.ab__full {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin-left: calc(50% - 50vw);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 86%, transparent 100%);
-}
-
-.ab__full-img {
-  object-fit: cover;
 }
 
 /* ----- « Contact » discret (header global) + voile des réseaux ----- */
