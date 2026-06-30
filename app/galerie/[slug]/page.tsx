@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { categories, getCategory } from "@/data/categories";
 import dimsData from "@/data/image-dims.json";
 import { GalleryViewer, type GalleryItem } from "@/components/gallery/GalleryViewer";
-import { ShatterIntro } from "@/components/gallery/ShatterIntro";
 
 const dims = dimsData as Record<string, { w: number; h: number }>;
 
@@ -40,7 +39,6 @@ export default async function GalleryPage({
 
   return (
     <main className="gal gal--viewer">
-      <ShatterIntro src={cat.image} label={cat.name} />
       <GalleryViewer items={items} name={cat.name} tagline={cat.tagline} others={others} />
     </main>
   );

@@ -23,7 +23,7 @@ export function HeroCarousel({ onTilt }: { onTilt?: () => void }) {
     if (engine.isExiting) return;
     setExiting(true);
     const slug = categories[engine.activeIndex].slug;
-    engine.playExit(() => router.push(`/galerie/${slug}`));
+    engine.beginEnterGallery(() => router.push(`/galerie/${slug}`));
   };
 
   useEffect(() => {

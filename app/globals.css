@@ -135,6 +135,13 @@ a {
   cursor: pointer;
 }
 
+/* Pendant l'éclat de transition : le canvas couvre le DOM galerie (les fragments
+   passent au-dessus de la page qui émerge), puis il redescend (retour à z 0). */
+.webgl-stage--transition {
+  z-index: 60;
+  pointer-events: none;
+}
+
 .hero__label {
   position: fixed;
   top: 56%;
@@ -866,6 +873,26 @@ a {
   padding: 0;
   height: 100vh;
   overflow: hidden;
+  /* La galerie ÉMERGE derrière l'éclat : invisible le temps que la fissure couvre,
+     puis fondu doux pendant que les fragments se dispersent. */
+  animation: galEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+@keyframes galEnter {
+  from {
+    opacity: 0;
+    transform: scale(1.012);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gal--viewer {
+    animation: none;
+  }
 }
 
 .gv {

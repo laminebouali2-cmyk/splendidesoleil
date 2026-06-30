@@ -14,7 +14,7 @@ import { gsap } from "gsap";
 import { CarouselScene } from "@/components/hero/CarouselScene";
 import { ShatterMesh } from "./ShatterMesh";
 
-type Mode = "idle" | "home";
+type Mode = "idle" | "home" | "transition";
 
 export interface EngineCallbacks {
   onChange?: (index: number) => void;
@@ -30,6 +30,7 @@ class TransitionEngine {
   private mode: Mode = "idle";
   private cbs: EngineCallbacks = {};
   private inputBound = false;
+  private transitioning = false; // vrai pendant l'éclat (canvas au-dessus du DOM galerie)
 
   // Appelé une seule fois par PersistentCanvas. Idempotent : un re-mount React
   // (StrictMode/HMR) ne recrée ni le renderer ni les listeners.
@@ -109,16 +110,70 @@ class TransitionEngine {
   }
 
   // L'accueil quitte la scène (navigation) : on cache le cylindre, canvas non cliquable.
+  // Mais SI une transition (éclat) est en cours, on ne touche pas au mode/z-index :
+  // le canvas doit rester au-dessus du DOM galerie jusqu'à la fin de l'éclat.
   hideCylinder() {
-    this.mode = "idle";
-    this.applyMode();
     this.cylinder?.hide();
+    if (!this.transitioning) {
+      this.mode = "idle";
+      this.applyMode();
+    }
   }
 
   private applyMode() {
     const c = this.canvas;
     if (!c) return;
     c.classList.toggle("webgl-stage--home", this.mode === "home");
+    c.classList.toggle("webgl-stage--transition", this.mode === "transition");
+  }
+
+  // Transition complète accueil → galerie, sans couture :
+  // 1) le panneau focus se déplie à plat (playExit) ;
+  // 2) la fissure prend EXACTEMENT le relais (même image, même place) et explose ;
+  // 3) on navigue derrière (la galerie monte cachée, fond en CSS) pendant que le
+  //    canvas passe au-dessus du DOM ; 4) les éclats se dispersent et s'effacent,
+  //    le canvas redescend → galerie nette.
+  beginEnterGallery(routerPush: () => void) {
+    if (!this.cylinder) {
+      routerPush();
+      return;
+    }
+    this.ensureShatter();
+    const s = this.shatter;
+    const cyl = this.cylinder;
+    if (!s) {
+      cyl.playExit(routerPush);
+      return;
+    }
+    this.transitioning = true;
+    cyl.playExit(() => {
+      // Le panneau est déplié à plat → la fissure (identique) prend le relais.
+      s.setTexture(cyl.getFocusTexture());
+      s.opacity = 1;
+      s.floatAmount = 0;
+      s.progress = 0;
+      s.show();
+      cyl.hide();
+      this.mode = "transition";
+      this.applyMode(); // le canvas couvre le DOM galerie pendant l'éclat
+      routerPush();
+
+      gsap.killTweensOf(s.material.uniforms.uProgress);
+      gsap.killTweensOf(s.material.uniforms.uOpacity);
+      gsap.to(s.material.uniforms.uProgress, { value: 1, duration: 1.05, ease: "power3.inOut" });
+      gsap.to(s.material.uniforms.uOpacity, {
+        value: 0,
+        duration: 0.6,
+        delay: 0.6,
+        ease: "power2.in",
+        onComplete: () => {
+          s.hide();
+          this.transitioning = false;
+          this.mode = "idle";
+          this.applyMode(); // le canvas redescend sous le DOM galerie
+        },
+      });
+    });
   }
 
   // Clic sur le canvas (géré par PersistentCanvas) → ouvrir la galerie, en mode accueil seulement.
