@@ -50,8 +50,10 @@ qui flottent + flou→net, **sans couture**. Comportement clic voulu : tout peti
 disparaissent + le titre explose, **tout dans la même page**.
 
 ## AUTRES POINTS À RÉGLER
-- **Vraies polices** : l'actuelle (Editorial Old + Neue Montreal) est jugée « horrible » → **identifier les
-  vraies fontes** chargées par aikawakenichi.com (3 fichiers de fontes vus au réseau) et les intégrer/matcher.
+- **Polices** : VÉRIFIÉ — le clone utilise DÉJÀ les **vraies fontes** du site cible (PP Editorial Old +
+  PP Neue Montreal, fichiers `app/fonts/*.woff2` **identiques octet-pour-octet** à ceux de aikawakenichi.com,
+  câblés dans `app/layout.tsx`). Donc « police horrible » = **problème d'USAGE** (tailles/graisses/letter-spacing
+  d'un élément précis), PAS le fichier. Demander au client QUEL élément précis lui semble faux, puis ajuster l'usage.
 - **Titres accrochés aux panneaux** : « Mariages/Lumière… » doivent suivre/se courber avec le panneau
   (**texte rendu en WebGL**, pas un overlay DOM fixe `.hero__label`).
 - **Éclats flottants ambiants** sur le home (autour du cylindre), comme la réf.
