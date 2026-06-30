@@ -110,9 +110,11 @@ class TransitionEngine {
     const { scene } = this.cylinder.getContext();
     const { width, height, z } = this.cylinder.getFlatPanelSize();
     const aspect = width / height;
-    const N = 720; // ~grille dense (recette ≈ 20×40), cellules quasi carrées
-    const cols = Math.max(8, Math.round(Math.sqrt(N * aspect)));
-    const rows = Math.max(8, Math.round(N / cols));
+    // Morceaux de VERRE (pas des confettis) : grille volontairement grossière →
+    // pièces larges et anguleuses. ~150 cellules au lieu de ~720.
+    const N = 150;
+    const cols = Math.max(6, Math.round(Math.sqrt(N * aspect)));
+    const rows = Math.max(5, Math.round(N / cols));
     this.shatter = new ShatterMesh({ width, height, z, cols, rows });
     scene.add(this.shatter.mesh);
     this.cylinder.addFrameHook((now) => {
