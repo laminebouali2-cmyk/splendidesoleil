@@ -1,56 +1,30 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 
-// Réseaux. NOTE : remplacer par les vrais comptes de la cliente (handles fournis plus tard).
-const SOCIALS = [
-  { label: "Email", href: "mailto:contact@splendide-soleil.fr", ext: false },
-  { label: "Instagram", href: "#", ext: true },
-  { label: "Facebook", href: "#", ext: true },
-];
-
-// Dock de la page About. Comme le vrai site : ← retour, pilule avec le nom de la page,
-// et un bouton qui DÉPLIE le contact (la pilule devient « Contact » et les réseaux
-// s'affichent au-dessus). Re-cliquer referme.
-export function AboutDock({ thumb }: { thumb: string }) {
-  const [open, setOpen] = useState(false);
-  const toggle = () => setOpen((o) => !o);
-
+// Dock simple de la page About : retour + nom + accueil. Le contact vit désormais
+// sur la page (réseaux écrits) et dans le « Contact » global du header.
+export function AboutDock() {
   return (
-    <nav className="dock dock--page dock--about">
-      <div className={`ab-contact${open ? " ab-contact--open" : ""}`} aria-hidden={!open}>
-        {SOCIALS.map((s) => (
-          <a
-            key={s.label}
-            className="ab-contact__link"
-            href={s.href}
-            {...(s.ext ? { target: "_blank", rel: "noreferrer" } : {})}
-          >
-            {s.label}
-          </a>
-        ))}
-      </div>
-
+    <nav className="dock dock--page">
       <Link href="/" className="dock__lead" aria-label="Retour à l'accueil">
         <span className="dock__lead-arrow" aria-hidden>
           ←
         </span>
       </Link>
-
-      <button className="dock__bar dock__bar--btn" onClick={toggle} aria-expanded={open}>
-        <span className="dock__thumb" style={{ backgroundImage: `url(${thumb})` }} />
-        <span className="dock__name">{open ? "Contact" : "À propos"}</span>
-      </button>
-
-      <button
-        className="dock__round dock__round--home"
-        onClick={toggle}
-        aria-label={open ? "Fermer le contact" : "Voir le contact"}
-        aria-pressed={open}
-      >
-        <span className="dock__toggle-glyph">{open ? "×" : "="}</span>
-      </button>
+      <div className="dock__bar">
+        <span className="dock__name">À propos</span>
+      </div>
+      <Link href="/" className="dock__round dock__round--home" aria-label="Accueil">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden>
+          <path
+            d="M4 11.5 12 4l8 7.5M6 10v9h12v-9"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
     </nav>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { editorialOld, neueMontreal } from "./fonts";
 import { PersistentCanvas } from "@/components/webgl/PersistentCanvas";
+import { HeaderContact } from "@/components/HeaderContact";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="fr" className={`${editorialOld.variable} ${neueMontreal.variable}`}>
       <body>
         <PersistentCanvas />
+        <HeaderContact />
         {children}
       </body>
     </html>

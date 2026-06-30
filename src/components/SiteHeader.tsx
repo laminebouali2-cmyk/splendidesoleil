@@ -7,7 +7,7 @@ export function SiteHeader() {
         <Link href="/about" className="site-header__link">
           Splendide Soleil
         </Link>{" "}
-        photographe de mariage.
+        gardienne de lumière.
       </h1>
     </header>
   );
